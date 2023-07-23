@@ -5,24 +5,21 @@ import React from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
+  variant?: "dark" | "light";
 }
 
-const StyledButton = styled.button`
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
+const StyledRoundedButton = styled.button<ButtonProps>`
+  padding: 3px 8px;
+  background-color: ${(props) =>
+    props.variant !== "light" ? "#aeaeae" : "#D7D7D7"};
+  color: #000000;
+  border: 1px solid #000000;
   border-radius: 50px;
-  font-size: 1em;
+  font-size: 0.8em;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #0056b3;
-  }
 
   &:active {
-    background-color: #004085;
+    background-color: #fca827;
   }
 
   &:disabled {
@@ -36,9 +33,9 @@ function RoundedButton(
   ref: React.ForwardedRef<HTMLButtonElement>
 ) {
   return (
-    <StyledButton ref={ref} {...props}>
+    <StyledRoundedButton ref={ref} {...props}>
       {props.children}
-    </StyledButton>
+    </StyledRoundedButton>
   );
 }
 
