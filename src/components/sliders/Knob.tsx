@@ -27,7 +27,7 @@ type KnobProps = {
   disabled?: boolean;
   title: string | React.ReactNode;
   onChange?: (value: number) => void;
-} & React.InputHTMLAttributes<HTMLInputElement>;
+};
 
 function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
   const [dragStart, setDragStart] = React.useState<[number, number]>([0, 0]);
@@ -44,7 +44,6 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
     if (props.onChange) {
       props.onChange(value);
     }
-    console.log(value);
   }
 
   function onMouseUp(event: MouseEvent) {
@@ -71,12 +70,7 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
       ) : (
         props.title
       )}
-      <svg
-        width={50}
-        height={45}
-        style={{ border: "1px solid red" }}
-        onMouseDown={onMouseDown}
-      >
+      <svg width={50} height={45} onMouseDown={onMouseDown}>
         <path
           d={arc}
           fill="none"
@@ -92,17 +86,18 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
           stroke="#54CFE8"
         />
       </svg>
-      <KnobValue>{props.value}</KnobValue>
+      <KnobValue>{props.value.toFixed(2)}</KnobValue>
       <input
         hidden
         ref={ref}
-        {...props}
         value={props.value}
         type="range"
-        onChange={props.onChange}
-      >
-        {props.children}
-      </input>
+        onChange={(e) =>
+          props.onChange
+            ? props.onChange(parseFloat(e.target.value))
+            : undefined
+        }
+      ></input>
     </Container>
   );
 }
