@@ -22,7 +22,7 @@ export function arcPath(
   cy: number,
   radius: number,
   startAngle: number,
-  endAngle: number
+  endAngle: number,
 ) {
   const steps = 100;
   const angleStep = (toRadians(endAngle) - toRadians(startAngle)) / steps;

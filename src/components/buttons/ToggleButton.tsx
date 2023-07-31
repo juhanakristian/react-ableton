@@ -15,8 +15,7 @@ function activeColor(variant: string) {
   }
 }
 
-interface ToggleButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ToggleButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   state: boolean;
   children?: React.ReactNode;
   variant?: "yellow" | "blue" | "red";
@@ -24,9 +23,7 @@ interface ToggleButtonProps
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const StyledToggleButton = styled.button<
-  ToggleButtonProps & { active: string }
->`
+const StyledToggleButton = styled.button<ToggleButtonProps & { active: string }>`
   padding: 3px 3px;
   background-color: ${(props) => (props.state ? props.active : "#aeaeae")};
   color: #000000;
@@ -45,16 +42,9 @@ const StyledToggleButton = styled.button<
   }
 `;
 
-function ToggleButton(
-  props: ToggleButtonProps,
-  ref: React.ForwardedRef<HTMLButtonElement>
-) {
+function ToggleButton(props: ToggleButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) {
   return (
-    <StyledToggleButton
-      ref={ref}
-      {...props}
-      active={activeColor(props.variant ?? "yellow")}
-    >
+    <StyledToggleButton ref={ref} {...props} active={activeColor(props.variant ?? "yellow")}>
       {props.children}
     </StyledToggleButton>
   );

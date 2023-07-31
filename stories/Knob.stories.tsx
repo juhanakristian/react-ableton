@@ -4,13 +4,7 @@ import Knob from "../src/components/sliders/Knob";
 
 const ControlledKnob = (props: any) => {
   const [value, setValue] = React.useState(0.5);
-  return (
-    <Knob
-      title={props.title}
-      value={value}
-      onChange={(v: number) => setValue(v)}
-    />
-  );
+  return <Knob title={props.title} value={value} onChange={(v: number) => setValue(v)} />;
 };
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

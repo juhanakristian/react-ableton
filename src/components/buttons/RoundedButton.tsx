@@ -9,8 +9,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const StyledRoundedButton = styled.button<ButtonProps>`
   padding: 3px 8px;
-  background-color: ${(props) =>
-    props.variant !== "light" ? "#aeaeae" : "#D7D7D7"};
+  background-color: ${(props) => (props.variant !== "light" ? "#aeaeae" : "#D7D7D7")};
   color: #000000;
   border: 1px solid #000000;
   border-radius: 50px;
@@ -27,10 +26,7 @@ const StyledRoundedButton = styled.button<ButtonProps>`
   }
 `;
 
-function RoundedButton(
-  props: ButtonProps,
-  ref: React.ForwardedRef<HTMLButtonElement>
-) {
+function RoundedButton(props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) {
   return (
     <StyledRoundedButton ref={ref} {...props}>
       {props.children}
