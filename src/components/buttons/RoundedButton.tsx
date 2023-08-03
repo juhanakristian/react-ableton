@@ -2,12 +2,12 @@
 import styled from "@emotion/styled";
 import React from "react";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export type RoundedButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: React.ReactNode;
   variant?: "dark" | "light";
-}
+};
 
-const StyledRoundedButton = styled.button<ButtonProps>`
+const StyledRoundedButton = styled.button<RoundedButtonProps>`
   padding: 3px 8px;
   background-color: ${(props) => (props.variant !== "light" ? "#aeaeae" : "#D7D7D7")};
   color: #000000;
@@ -26,7 +26,7 @@ const StyledRoundedButton = styled.button<ButtonProps>`
   }
 `;
 
-function RoundedButton(props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) {
+function RoundedButton(props: RoundedButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) {
   return (
     <StyledRoundedButton ref={ref} {...props}>
       {props.children}

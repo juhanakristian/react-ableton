@@ -22,7 +22,7 @@ const KnobValue = styled.span`
   color: #000000;
 `;
 
-type KnobProps = {
+export type KnobProps = {
   value: number;
   disabled?: boolean;
   title: string | React.ReactNode;
@@ -43,7 +43,7 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
     }
   }
 
-  function onMouseUp(event: MouseEvent) {
+  function onMouseUp(_event: MouseEvent) {
     document.removeEventListener("mousemove", onMouseMove);
     document.removeEventListener("mouseup", onMouseUp);
   }

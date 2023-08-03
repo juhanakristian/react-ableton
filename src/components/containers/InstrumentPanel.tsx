@@ -2,11 +2,11 @@
 import styled from "@emotion/styled";
 import React from "react";
 
-interface PanelProps {
+export type InstrumentPanelProps = {
   title: string;
   actions?: React.ReactNode;
   children?: React.ReactNode;
-}
+};
 
 const StyledPanelContainer = styled.div`
   display: flex;
@@ -45,7 +45,7 @@ const StyledPanelContent = styled.div`
   }
 `;
 
-function InstrumentPanel(props: PanelProps) {
+function InstrumentPanel(props: InstrumentPanelProps) {
   const { title } = props;
   return (
     <StyledPanelContainer>

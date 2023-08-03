@@ -15,13 +15,13 @@ function activeColor(variant: string) {
   }
 }
 
-interface ToggleButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export type ToggleButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   state: boolean;
   children?: React.ReactNode;
   variant?: "yellow" | "blue" | "red";
   disabled?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}
+};
 
 const StyledToggleButton = styled.button<ToggleButtonProps & { active: string }>`
   padding: 3px 3px;
