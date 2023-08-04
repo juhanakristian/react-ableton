@@ -50,10 +50,7 @@ function InstrumentPanel(props: InstrumentPanelProps) {
   return (
     <StyledPanelContainer>
       <StyledPanelTitleBar focused={true}>{title}</StyledPanelTitleBar>
-      <StyledPanelContent>
-        TEST
-        {props.children}
-      </StyledPanelContent>
+      <StyledPanelContent>{props.children}</StyledPanelContent>
     </StyledPanelContainer>
   );
 }
