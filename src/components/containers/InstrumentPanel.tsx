@@ -13,6 +13,8 @@ const StyledPanelContainer = styled.div`
   flex-direction: column;
   font-family: Sans-Serif;
   min-width: 300px;
+
+  border-radius: 8px;
 `;
 
 const StyledPanelTitleBar = styled.div<{ focused: boolean }>`
@@ -23,9 +25,11 @@ const StyledPanelTitleBar = styled.div<{ focused: boolean }>`
   color: #000000;
   font-size: 0.8em;
   font-weight: 600;
-  height: 25px;
+  height: 17px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  border: 4px solid #9cb0be;
+  border-bottom: none;
 `;
 
 const StyledPanelContent = styled.div`
@@ -34,11 +38,12 @@ const StyledPanelContent = styled.div`
   color: #000000;
   font-size: 0.8em;
   cursor: pointer;
-  height: 25px;
   min-height: 50px;
 
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+  border: 4px solid #9cb0be;
+  border-top: none;
 
   &:focus {
     border: 2px solid #000000;
