@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import React from "react";
-import { arcPath } from "./util";
+import { arcPath, arcPoint } from "./util";
 
 const Container = styled.div`
   display: flex;
@@ -60,12 +60,21 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
     setDragStart([startX, startY]);
   }
 
+  const valuePoint = arcPoint(25, 25, 20, 130 + (410 - 130) * props.value);
+
   return (
     <Container>
       {typeof props.title === "string" ? <KnobTitle>{props.title}</KnobTitle> : props.title}
       <svg width={50} height={45} onMouseDown={onMouseDown}>
         <path d={arc} fill="none" strokeWidth={5} strokeLinecap="round" stroke="#181818" />
         <path d={valueArc} fill="none" strokeWidth={5} strokeLinecap="round" stroke="#54CFE8" />
+        <path
+          d={`M 25 25 L ${valuePoint.x} ${valuePoint.y}`}
+          fill="none"
+          strokeWidth={5}
+          strokeLinecap="round"
+          stroke="#181818"
+        />
       </svg>
       <KnobValue>{props.value.toFixed(2)}</KnobValue>
       <input

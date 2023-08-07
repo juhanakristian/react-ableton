@@ -39,3 +39,10 @@ export function arcPath(
 
   return path;
 }
+
+export function arcPoint(cx: number, cy: number, radius: number, angle: number) {
+  return {
+    x: cx + radius * Math.cos(toRadians(angle)),
+    y: cy + radius * Math.sin(toRadians(angle)),
+  };
+}
