@@ -32,9 +32,6 @@ export type KnobProps = {
 function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
   const [dragStart, setDragStart] = React.useState<[number, number]>([0, 0]);
 
-  const arc = arcPath(25, 25, 20, 130, 410);
-  const valueArc = arcPath(25, 25, 20, 130, 130 + (410 - 130) * props.value);
-
   function onMouseMove(event: MouseEvent) {
     const value = Math.min(1, Math.max(0, props.value + (dragStart[1] - event.clientY) / 100));
 
@@ -60,18 +57,24 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
     setDragStart([startX, startY]);
   }
 
-  const valuePoint = arcPoint(25, 25, 20, 130 + (410 - 130) * props.value);
+  const cx = 20;
+  const cy = 20;
+  const r = 15;
+
+  const arc = arcPath(cx, cy, r, 130, 410);
+  const valueArc = arcPath(cx, cy, r, 130, 130 + (410 - 130) * props.value);
+  const valuePoint = arcPoint(cx, cy, r, 130 + (410 - 130) * props.value);
 
   return (
     <Container>
       {typeof props.title === "string" ? <KnobTitle>{props.title}</KnobTitle> : props.title}
-      <svg width={50} height={45} onMouseDown={onMouseDown}>
-        <path d={arc} fill="none" strokeWidth={5} strokeLinecap="round" stroke="#181818" />
-        <path d={valueArc} fill="none" strokeWidth={5} strokeLinecap="round" stroke="#54CFE8" />
+      <svg width={40} height={40} onMouseDown={onMouseDown}>
+        <path d={arc} fill="none" strokeWidth={3} strokeLinecap="round" stroke="#181818" />
+        <path d={valueArc} fill="none" strokeWidth={3} strokeLinecap="round" stroke="#54CFE8" />
         <path
-          d={`M 25 25 L ${valuePoint.x} ${valuePoint.y}`}
+          d={`M ${cx} ${cy} L ${valuePoint.x} ${valuePoint.y}`}
           fill="none"
-          strokeWidth={5}
+          strokeWidth={3}
           strokeLinecap="round"
           stroke="#181818"
         />
