@@ -12,13 +12,13 @@ const Container = styled.div`
 
 const KnobTitle = styled.label`
   font-family: Sans-Serif;
-  font-size: 0.8em;
+  font-size: 0.7em;
   color: #000000;
 `;
 
 const KnobValue = styled.span`
   font-family: Sans-Serif;
-  font-size: 0.9em;
+  font-size: 0.8em;
   color: #000000;
 `;
 
@@ -26,6 +26,8 @@ export type KnobProps = {
   value: number;
   disabled?: boolean;
   title: string | React.ReactNode;
+  range?: [number, number];
+  formatter?: (value: number) => string;
   onChange?: (value: number) => void;
 };
 
@@ -33,7 +35,9 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
   const [dragStart, setDragStart] = React.useState<[number, number]>([0, 0]);
 
   function onMouseMove(event: MouseEvent) {
-    const value = Math.min(1, Math.max(0, props.value + (dragStart[1] - event.clientY) / 100));
+    const [min, max] = props.range || [0, 1];
+    const change = ((dragStart[1] - event.clientY) / 100) * (max - min);
+    const value = Math.min(max, Math.max(min, props.value + change));
 
     if (props.onChange) {
       props.onChange(value);
@@ -57,13 +61,22 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
     setDragStart([startX, startY]);
   }
 
+  const [min, max] = props.range || [0, 1];
+  const position = (props.value - min) / (max - min);
+
   const cx = 20;
   const cy = 20;
   const r = 15;
 
-  const arc = arcPath(cx, cy, r, 130, 410);
-  const valueArc = arcPath(cx, cy, r, 130, 130 + (410 - 130) * props.value);
-  const valuePoint = arcPoint(cx, cy, r, 130 + (410 - 130) * props.value);
+  const startAngle = 130;
+  const endAngle = 410;
+  const gap = 14; // Gap between the two arcs
+
+  const valueArc = arcPath(cx, cy, r, startAngle, startAngle + (endAngle - startAngle) * position);
+  const arc = arcPath(cx, cy, r, startAngle + (endAngle - startAngle) * position + gap, endAngle);
+  const valuePoint = arcPoint(cx, cy, r, startAngle + (endAngle - startAngle) * position);
+
+  const formattedValue = props.formatter ? props.formatter(props.value) : props.value.toFixed(2);
 
   return (
     <Container>
@@ -79,7 +92,7 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
           stroke="#181818"
         />
       </svg>
-      <KnobValue>{props.value.toFixed(2)}</KnobValue>
+      <KnobValue>{formattedValue}</KnobValue>
       <input
         hidden
         ref={ref}

@@ -1,10 +1,10 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import Knob from "../src/components/sliders/Knob";
+import Knob, { KnobProps } from "../src/components/sliders/Knob";
 
-const ControlledKnob = (props: any) => {
-  const [value, setValue] = React.useState(0.5);
-  return <Knob title={props.title} value={value} onChange={(v: number) => setValue(v)} />;
+const ControlledKnob = (props: KnobProps) => {
+  const [value, setValue] = React.useState(props.value);
+  return <Knob {...props} value={value} onChange={(v: number) => setValue(v)} />;
 };
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -28,4 +28,12 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Initial: Story = {
   args: { value: 0.5, title: "Title" },
+};
+
+export const Range: Story = {
+  args: { value: 50, title: "Range", range: [0, 100] },
+};
+
+export const Formatting: Story = {
+  args: { value: 50, title: "Range", range: [0, 100], formatter: (v) => `${v.toFixed(0)} ms` },
 };
