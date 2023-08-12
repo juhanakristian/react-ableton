@@ -33,32 +33,30 @@ export type KnobProps = {
 
 function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
   const [dragStart, setDragStart] = React.useState<[number, number]>([0, 0]);
-
-  function onMouseMove(event: MouseEvent) {
-    const [min, max] = props.range || [0, 1];
-    const change = ((dragStart[1] - event.clientY) / 100) * (max - min);
-    const value = Math.min(max, Math.max(min, props.value + change));
-
-    if (props.onChange) {
-      props.onChange(value);
-    }
-  }
-
-  function onMouseUp(_event: MouseEvent) {
-    document.removeEventListener("mousemove", onMouseMove);
-    document.removeEventListener("mouseup", onMouseUp);
-  }
+  const svgRef = React.useRef<SVGSVGElement>(null);
 
   function onMouseDown(event: React.MouseEvent<any>) {
     event.preventDefault();
 
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUp);
-
-    const startX = event.clientX;
     const startY = event.clientY;
 
-    setDragStart([startX, startY]);
+    function onMouseMove(event: MouseEvent) {
+      const [min, max] = props.range || [0, 1];
+      const change = ((startY - event.clientY) / 100) * (max - min);
+      const value = Math.min(max, Math.max(min, props.value + change));
+
+      if (props.onChange) {
+        props.onChange(value);
+      }
+    }
+
+    function onMouseUp(_event: MouseEvent) {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    }
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
   }
 
   const [min, max] = props.range || [0, 1];
@@ -73,7 +71,13 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
   const gap = 14; // Gap between the two arcs
 
   const valueArc = arcPath(cx, cy, r, startAngle, startAngle + (endAngle - startAngle) * position);
-  const arc = arcPath(cx, cy, r, startAngle + (endAngle - startAngle) * position + gap, endAngle);
+  const arc = arcPath(
+    cx,
+    cy,
+    r,
+    Math.min(startAngle + (endAngle - startAngle) * position + gap, endAngle),
+    endAngle,
+  );
   const valuePoint = arcPoint(cx, cy, r, startAngle + (endAngle - startAngle) * position);
 
   const formattedValue = props.formatter ? props.formatter(props.value) : props.value.toFixed(2);
@@ -81,7 +85,7 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
   return (
     <Container>
       {typeof props.title === "string" ? <KnobTitle>{props.title}</KnobTitle> : props.title}
-      <svg width={40} height={40} onMouseDown={onMouseDown}>
+      <svg ref={svgRef} width={40} height={40} onMouseDown={onMouseDown}>
         <path d={arc} fill="none" strokeWidth={3} strokeLinecap="round" stroke="#181818" />
         <path d={valueArc} fill="none" strokeWidth={3} strokeLinecap="round" stroke="#54CFE8" />
         <path
