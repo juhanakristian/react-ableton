@@ -3,11 +3,13 @@ import styled from "@emotion/styled";
 import React from "react";
 import { arcPath, arcPoint } from "./util";
 
-const Container = styled.div`
+const Container = styled.div<{ focused: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 60px;
+  box-sizing: border-box;
+  border: ${(props) => (props.focused ? "2px solid #000000" : "none")};
 `;
 
 const KnobTitle = styled.label`
@@ -31,9 +33,9 @@ export type KnobProps = {
   onChange?: (value: number) => void;
 };
 
-function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
-  const [dragStart, setDragStart] = React.useState<[number, number]>([0, 0]);
-  const svgRef = React.useRef<SVGSVGElement>(null);
+export default function Knob(props: KnobProps) {
+  const [focused, setFocused] = React.useState(false);
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
 
   function onMouseDown(event: React.MouseEvent<any>) {
     event.preventDefault();
@@ -57,6 +59,8 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
 
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
+
+    containerRef.current?.focus();
   }
 
   const [min, max] = props.range || [0, 1];
@@ -71,21 +75,24 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
   const gap = 14; // Gap between the two arcs
 
   const valueArc = arcPath(cx, cy, r, startAngle, startAngle + (endAngle - startAngle) * position);
-  const arc = arcPath(
-    cx,
-    cy,
-    r,
-    Math.min(startAngle + (endAngle - startAngle) * position + gap, endAngle),
-    endAngle,
-  );
+
+  const bgArcStart = Math.min(startAngle + (endAngle - startAngle) * position + gap, endAngle);
+  const arc = arcPath(cx, cy, r, bgArcStart, endAngle);
+
   const valuePoint = arcPoint(cx, cy, r, startAngle + (endAngle - startAngle) * position);
 
   const formattedValue = props.formatter ? props.formatter(props.value) : props.value.toFixed(2);
 
   return (
-    <Container>
+    <Container
+      focused={focused}
+      ref={containerRef}
+      tabIndex={-1}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+    >
       {typeof props.title === "string" ? <KnobTitle>{props.title}</KnobTitle> : props.title}
-      <svg ref={svgRef} width={40} height={40} onMouseDown={onMouseDown}>
+      <svg width={40} height={40} onMouseDown={onMouseDown}>
         <path d={arc} fill="none" strokeWidth={3} strokeLinecap="round" stroke="#181818" />
         <path d={valueArc} fill="none" strokeWidth={3} strokeLinecap="round" stroke="#54CFE8" />
         <path
@@ -99,13 +106,12 @@ function Knob(props: KnobProps, ref: React.ForwardedRef<HTMLInputElement>) {
       <KnobValue>{formattedValue}</KnobValue>
       <input
         hidden
-        ref={ref}
         value={props.value}
         type="range"
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         onChange={(e) => (props.onChange ? props.onChange(parseFloat(e.target.value)) : undefined)}
       ></input>
     </Container>
   );
 }
-
-export default React.forwardRef(Knob);
