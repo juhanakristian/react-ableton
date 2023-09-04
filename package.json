@@ -1,6 +1,6 @@
 {
   "name": "react-ableton",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "React Component library inspired by Ableton Live",
   "main": "dist/index.js",
   "type": "module",

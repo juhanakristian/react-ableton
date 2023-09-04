@@ -30,7 +30,6 @@ const StyledPanelTitleBar = styled.div<{ focused: boolean }>`
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   border: 4px solid #9cb0be;
-  border-bottom: none;
 `;
 
 const PanelTitleCircle = styled.div`
