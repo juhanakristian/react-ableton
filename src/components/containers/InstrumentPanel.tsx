@@ -20,21 +20,30 @@ const StyledPanelContainer = styled.div`
 const StyledPanelTitleBar = styled.div<{ focused: boolean }>`
   display: flex;
   align-items: center;
-  padding: 3px 8px;
+  gap: 6px;
+  padding: 0px 3px;
   background-color: ${(props) => (props.focused ? "#9CB0BE" : "#A0A0A0")};
   color: #000000;
-  font-size: 0.8em;
+  font-size: 11px;
   font-weight: 600;
-  height: 17px;
+  height: 20px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   border: 4px solid #9cb0be;
   border-bottom: none;
 `;
 
+const PanelTitleCircle = styled.div`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #fca827;
+  border: 0.8px solid #000000;
+`;
+
 const StyledPanelContent = styled.div`
   padding: 8px 8px;
-  background-color: #848484;
+  background-color: #a0a0a0;
   color: #000000;
   font-size: 0.8em;
   cursor: pointer;
@@ -54,7 +63,10 @@ function InstrumentPanel(props: InstrumentPanelProps) {
   const { title } = props;
   return (
     <StyledPanelContainer>
-      <StyledPanelTitleBar focused={true}>{title}</StyledPanelTitleBar>
+      <StyledPanelTitleBar focused={true}>
+        <PanelTitleCircle />
+        {title}
+      </StyledPanelTitleBar>
       <StyledPanelContent>{props.children}</StyledPanelContent>
     </StyledPanelContainer>
   );
