@@ -1,2 +1,2 @@
-export { default as InstrumentPanel } from "./InstrumentPanel";
-export type { InstrumentPanelProps } from "./InstrumentPanel";
+export { default as DevicePanel } from "./DevicePanel";
+export type { DevicePanelProps } from "./DevicePanel";

@@ -2,7 +2,7 @@
 import styled from "@emotion/styled";
 import React from "react";
 
-export type InstrumentPanelProps = {
+export type DevicePanelProps = {
   title: string;
   actions?: React.ReactNode;
   children?: React.ReactNode;
@@ -58,17 +58,15 @@ const StyledPanelContent = styled.div`
   }
 `;
 
-function InstrumentPanel(props: InstrumentPanelProps) {
-  const { title } = props;
+export default function DevicePanel(props: DevicePanelProps) {
+  const { title, children } = props;
   return (
     <StyledPanelContainer>
       <StyledPanelTitleBar focused={true}>
         <PanelTitleCircle />
         {title}
       </StyledPanelTitleBar>
-      <StyledPanelContent>{props.children}</StyledPanelContent>
+      <StyledPanelContent>{children}</StyledPanelContent>
     </StyledPanelContainer>
   );
 }
-
-export default React.forwardRef(InstrumentPanel);
