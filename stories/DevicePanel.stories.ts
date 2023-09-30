@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import InstrumentPanel from "../src/components/containers/InstrumentPanel";
+import DevicePanel from "../src/components/containers/DevicePanel";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
-  title: "Example/InstrumentPanel",
-  component: InstrumentPanel,
+  title: "Example/DevicePanel",
+  component: DevicePanel,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
     layout: "centered",
@@ -13,7 +13,7 @@ const meta = {
   tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {},
-} satisfies Meta<typeof InstrumentPanel>;
+} satisfies Meta<typeof DevicePanel>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
