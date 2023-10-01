@@ -1,6 +1,24 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
-import Dropdown from "../src/components/dropdown/Dropdown";
+import Dropdown, { DropdownItem } from "../src/components/dropdown/Dropdown";
+
+type ControlledDropdownProps = {
+  values: { value: string; label: string }[];
+  value: string;
+};
+
+const ControlledDropdown = (props: ControlledDropdownProps) => {
+  const [value, setValue] = React.useState(props.value);
+  const label = props.values.find((v) => v.value === value)?.label;
+  return (
+    <Dropdown {...props} label={label} value={value} onChange={(v) => setValue(v)}>
+      {props.values.map((v) => (
+        <DropdownItem value={v.value}>{v.label}</DropdownItem>
+      ))}
+    </Dropdown>
+  );
+};
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -14,6 +32,7 @@ const meta = {
   tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {},
+  render: ControlledDropdown,
 } satisfies Meta<typeof Dropdown>;
 
 export default meta;
@@ -21,5 +40,11 @@ type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Initial: Story = {
-  args: { children: ["Item 1", "Item 2"] },
+  args: {
+    value: "1",
+    values: [
+      { value: "1", label: "One" },
+      { value: "2", label: "Two" },
+    ],
+  },
 };
