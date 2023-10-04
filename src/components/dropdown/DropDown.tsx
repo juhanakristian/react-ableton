@@ -39,7 +39,7 @@ const DropdownListContainer = styled.div`
   position: absolute;
   width: 100%;
   top: 3px;
-  pointer-events: none;
+  /* pointer-events: none; */
 `;
 
 const DrowdownList = styled.ul`
@@ -61,7 +61,6 @@ export type DropdownProps = {
 export type DropdownItemProps = {
   value: string;
   children?: React.ReactNode;
-  onClick?: (value: string) => void;
 };
 
 export function DropdownItem({ children }: DropdownItemProps) {
@@ -70,6 +69,10 @@ export function DropdownItem({ children }: DropdownItemProps) {
 
 export default function Dropdown({ children, value, label, onChange }: DropdownProps) {
   const [isOpen, setIsOpen] = React.useState(false);
+
+  function handleClick() {
+    setIsOpen(!isOpen);
+  }
 
   function handleItemClick(value: string) {
     console.log("handleItemClick", value);
@@ -80,16 +83,21 @@ export default function Dropdown({ children, value, label, onChange }: DropdownP
   // Attach handleItemClick to each child
   const childrenWithProps = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child as React.ReactElement<DropdownItemProps>, {
-        onClick: handleItemClick,
-      });
+      return React.createElement(
+        "div",
+        {
+          onClick: () =>
+            handleItemClick((child as React.ReactElement<DropdownItemProps>).props.value),
+        },
+        React.cloneElement(child as React.ReactElement<DropdownItemProps>, {}),
+      );
     }
     return child;
   });
 
   return (
     <DropdownContainer>
-      <StyledDropdown onClick={() => setIsOpen(!isOpen)}>{label}</StyledDropdown>
+      <StyledDropdown onClick={handleClick}>{label}</StyledDropdown>
       <DropdownListContainer>
         {isOpen && <DrowdownList>{childrenWithProps}</DrowdownList>}
       </DropdownListContainer>

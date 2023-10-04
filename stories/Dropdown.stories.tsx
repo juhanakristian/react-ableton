@@ -14,7 +14,9 @@ const ControlledDropdown = (props: ControlledDropdownProps) => {
   return (
     <Dropdown {...props} label={label} value={value} onChange={(v) => setValue(v)}>
       {props.values.map((v) => (
-        <DropdownItem value={v.value}>{v.label}</DropdownItem>
+        <DropdownItem key={v.value} value={v.value}>
+          {v.label}
+        </DropdownItem>
       ))}
     </Dropdown>
   );
