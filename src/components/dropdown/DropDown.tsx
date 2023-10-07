@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import React from "react";
+import useClickAway from "../../hooks/useclickaway";
+import React, { useEffect } from "react";
 
 const DropdownContainer = styled.div`
   display: flex;
@@ -39,7 +40,6 @@ const DropdownListContainer = styled.div`
   position: absolute;
   width: 100%;
   top: 3px;
-  /* pointer-events: none; */
 `;
 
 const DrowdownList = styled.ul`
@@ -67,11 +67,33 @@ export function DropdownItem({ children }: DropdownItemProps) {
   return <StyledDropdownItem>{children}</StyledDropdownItem>;
 }
 
-export default function Dropdown({ children, value, label, onChange }: DropdownProps) {
+export default function Dropdown({ children, value, onChange }: DropdownProps) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const listContainerRef = React.useRef<HTMLDivElement | null>(null);
 
-  function handleClick() {
+  useClickAway(listContainerRef, () => {
+    setIsOpen(false);
+  });
+
+  useEffect(() => {
+    function handleClickOutside() {
+      setIsOpen(false);
+    }
+
+    if (isOpen) {
+      document.addEventListener("click", handleClickOutside);
+      return () => {
+        document.removeEventListener("click", handleClickOutside);
+      };
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+  }, [isOpen]);
+
+  function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    console.log("handleClick");
     setIsOpen(!isOpen);
+    event.stopPropagation();
   }
 
   function handleItemClick(value: string) {
@@ -95,10 +117,14 @@ export default function Dropdown({ children, value, label, onChange }: DropdownP
     return child;
   });
 
+  const selectedChild = React.Children.toArray(children).find(
+    (child) => (child as React.ReactElement<DropdownItemProps>).props.value === value,
+  ) as React.ReactElement<DropdownItemProps>;
+
   return (
     <DropdownContainer>
-      <StyledDropdown onClick={handleClick}>{label}</StyledDropdown>
-      <DropdownListContainer>
+      <StyledDropdown onClick={handleClick}>{selectedChild?.props.children ?? ""}</StyledDropdown>
+      <DropdownListContainer ref={listContainerRef}>
         {isOpen && <DrowdownList>{childrenWithProps}</DrowdownList>}
       </DropdownListContainer>
     </DropdownContainer>
