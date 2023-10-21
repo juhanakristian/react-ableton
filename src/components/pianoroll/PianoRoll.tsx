@@ -13,12 +13,30 @@ const ScrollContainer = styled.div`
   max-height: 300px;
 `;
 
+const KeysContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  left: 0;
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(100, 1fr);
+  grid-template-rows: repeat(100, 1fr);
+  height: 100%;
+  width: 100%;
+`;
+
 // top with prop
 const BlackKey = styled.div`
   background-color: black;
   border: 1px solid black;
   height: 20px;
   width: 50px;
+  &:hover {
+    background-color: #333;
+  }
 `;
 
 const WhiteKey = styled.div`
@@ -27,16 +45,13 @@ const WhiteKey = styled.div`
   border-top: none;
   height: 20px;
   width: 50px;
-  :first-of-type {
-    border-top: 1px solid black;
+  &:hover {
+    background-color: #ccc;
   }
 `;
 
 const OctaveContainer = styled.div`
   position: relative;
-`;
-
-const KeysContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -44,20 +59,18 @@ const KeysContainer = styled.div`
 function Octave() {
   return (
     <OctaveContainer>
-      <KeysContainer>
-        <WhiteKey />
-        <BlackKey />
-        <WhiteKey />
-        <BlackKey />
-        <WhiteKey />
-        <BlackKey />
-        <WhiteKey />
-        <WhiteKey />
-        <BlackKey />
-        <WhiteKey />
-        <BlackKey />
-        <WhiteKey />
-      </KeysContainer>
+      <WhiteKey />
+      <BlackKey />
+      <WhiteKey />
+      <BlackKey />
+      <WhiteKey />
+      <BlackKey />
+      <WhiteKey />
+      <WhiteKey />
+      <BlackKey />
+      <WhiteKey />
+      <BlackKey />
+      <WhiteKey />
     </OctaveContainer>
   );
 }
@@ -68,10 +81,12 @@ export default function PianoRoll({}: PianoRollProps) {
   return (
     <Container>
       <ScrollContainer>
-        <Octave />
-        <Octave />
-        <Octave />
-        <Octave />
+        <KeysContainer>
+          <Octave />
+          <Octave />
+          <Octave />
+          <Octave />
+        </KeysContainer>
       </ScrollContainer>
     </Container>
   );
