@@ -11,6 +11,7 @@ const ScrollContainer = styled.div`
   height: 100%;
   width: 100%;
   max-height: 300px;
+  display: flex;
 `;
 
 const KeysContainer = styled.div`
@@ -23,15 +24,29 @@ const KeysContainer = styled.div`
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(100, 1fr);
-  grid-template-rows: repeat(100, 1fr);
+  grid-template-rows: repeat(48, 1fr);
+  grid-auto-flow: column;
   height: 100%;
   width: 100%;
+`;
+
+const GridNote = styled.div`
+  border: 1px solid black;
+  border-top: none;
+  background-color: #ccc;
+  height: 20px;
+  width: 70px;
+  :hover {
+    background-color: #aaa;
+  }
 `;
 
 // top with prop
 const BlackKey = styled.div`
   background-color: black;
   border: 1px solid black;
+  border-top: none;
+  border-bottom: 1px solid black;
   height: 20px;
   width: 50px;
   &:hover {
@@ -43,6 +58,7 @@ const WhiteKey = styled.div`
   background-color: white;
   border: 1px solid black;
   border-top: none;
+  border-bottom: 1px solid black;
   height: 20px;
   width: 50px;
   &:hover {
@@ -78,6 +94,7 @@ function Octave() {
 export type PianoRollProps = {};
 
 export default function PianoRoll({}: PianoRollProps) {
+  const notes = Array.from({ length: 48 }, (_, i) => i);
   return (
     <Container>
       <ScrollContainer>
@@ -87,6 +104,20 @@ export default function PianoRoll({}: PianoRollProps) {
           <Octave />
           <Octave />
         </KeysContainer>
+        <GridContainer>
+          {notes.map((note) => (
+            <GridNote key={note} />
+          ))}
+          {notes.map((note) => (
+            <GridNote key={note} />
+          ))}
+          {notes.map((note) => (
+            <GridNote key={note} />
+          ))}
+          {notes.map((note) => (
+            <GridNote key={note} />
+          ))}
+        </GridContainer>
       </ScrollContainer>
     </Container>
   );
