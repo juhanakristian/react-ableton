@@ -15,7 +15,9 @@ const ScrollContainer = styled.div`
   display: flex;
 `;
 
-const KeysContainer = styled.div`
+const PianoRollOctaves = styled.div`
+  height: 100%;
+  background-color: #a0a0a0;
   display: flex;
   flex-direction: column;
   position: sticky;
@@ -32,6 +34,7 @@ const GridContainer = styled.div`
 `;
 
 const GridNote = styled.div`
+  box-sizing: border-box;
   border: 1px solid black;
   border-top: none;
   background-color: #ccc;
@@ -50,12 +53,13 @@ const GridNote = styled.div`
 `;
 
 const PianoKey = styled.div`
+  box-sizing: border-box;
   background-color: white;
   border: 1px solid black;
   border-top: none;
   border-bottom: 1px solid black;
   height: 20px;
-  width: 50px;
+  width: 30px;
   &:hover {
     background-color: #ccc;
   }
@@ -66,66 +70,83 @@ const PianoKey = styled.div`
   :nth-child(12n + 11) {
     background-color: #000;
   }
+  :last-child {
+    border-bottom: none;
+  }
 `;
 
 const OctaveContainer = styled.div`
+  box-sizing: border-box;
   position: relative;
+  display: flex;
+  justify-content: flex-end;
+  width: 120px;
+  border-bottom: 1px solid black;
+`;
+
+const KeysContainer = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 `;
 
-function Octave() {
+const OctaveTitle = styled.span`
+  font-family: sans-serif;
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  font-size: 14px;
+`;
+
+type OctaveProps = {
+  root: string;
+};
+function Octave({ root }: OctaveProps) {
   return (
     <OctaveContainer>
-      <PianoKey />
-      <PianoKey />
-      <PianoKey />
-      <PianoKey />
-      <PianoKey />
-      <PianoKey />
-      <PianoKey />
-      <PianoKey />
-      <PianoKey />
-      <PianoKey />
-      <PianoKey />
-      <PianoKey />
-    </OctaveContainer>
-  );
-  return (
-    <OctaveContainer>
-      <PianoKey />
-      <BlackKey />
-      <PianoKey />
-      <BlackKey />
-      <PianoKey />
-      <BlackKey />
-      <PianoKey />
-      <PianoKey />
-      <BlackKey />
-      <PianoKey />
-      <BlackKey />
-      <PianoKey />
+      <OctaveTitle>{root}</OctaveTitle>
+      <KeysContainer>
+        <PianoKey />
+        <PianoKey />
+        <PianoKey />
+        <PianoKey />
+        <PianoKey />
+        <PianoKey />
+        <PianoKey />
+        <PianoKey />
+        <PianoKey />
+        <PianoKey />
+        <PianoKey />
+        <PianoKey />
+      </KeysContainer>
     </OctaveContainer>
   );
 }
 
-export type PianoRollProps = {};
+export type TimeSignature = {
+  counts: 2 | 4 | 3 | 6;
+  measure: 4 | 8;
+};
 
-export default function PianoRoll({}: PianoRollProps) {
+export type PianoRollProps = {
+  timeSignature: TimeSignature;
+};
+export default function PianoRoll({ timeSignature }: PianoRollProps) {
   const notes = Array.from({ length: 48 }, (_, i) => i);
   const beats = Array.from({ length: 4 }, (_, i) => i);
   const bars = Array.from({ length: 4 }, (_, i) => i);
+
   return (
     <Container>
       <ScrollContainer>
-        <KeysContainer>
-          <Octave />
-          <Octave />
-          <Octave />
-          <Octave />
-        </KeysContainer>
+        <PianoRollOctaves>
+          <Octave root="C6" />
+          <Octave root="C5" />
+          <Octave root="C4" />
+          <Octave root="C3" />
+        </PianoRollOctaves>
         <GridContainer>
-          {bars.map((bar) => beats.map((beat) => notes.map((note) => <GridNote key={note} />)))}
+          {bars.map(() => beats.map(() => notes.map((note) => <GridNote key={note} />)))}
         </GridContainer>
       </ScrollContainer>
     </Container>
