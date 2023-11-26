@@ -20,9 +20,9 @@ type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Dark: Story = {
-  args: { children: "Rounded Button" },
+  args: { timeSignature: { counts: 4, measure: 4 }, length: 8 },
 };
 
 export const Light: Story = {
-  args: { children: "Rounded Button", variant: "light" },
+  args: { timeSignature: { counts: 4, measure: 4 }, length: 8 },
 };
