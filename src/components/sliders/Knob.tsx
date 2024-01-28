@@ -16,6 +16,7 @@ const FocusContainer = styled.div`
   position: absolute;
   width: 60px;
   height: 90px;
+  pointer-events: none;
 `;
 
 type FocusCornerProps = {
@@ -41,13 +42,13 @@ const FocusCorner = styled.div<FocusCornerProps>`
 `;
 
 const KnobTitle = styled.label`
-  font-family: Sans-Serif;
+  font-family: Sans-Serif, serif;
   font-size: 0.7em;
   color: #000000;
 `;
 
 const KnobValue = styled.span`
-  font-family: Sans-Serif;
+  font-family: Sans-Serif, serif;
   font-size: 0.8em;
   color: #000000;
 `;
@@ -80,7 +81,7 @@ export default function Knob(props: KnobProps) {
       }
     }
 
-    function onMouseUp(_event: MouseEvent) {
+    function onMouseUp() {
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
     }
