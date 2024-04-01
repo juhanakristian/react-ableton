@@ -48,7 +48,7 @@ type OctaveProps = {
 };
 
 function Octave({ root, onKeyUp, onKeyDown }: OctaveProps) {
-  const keys = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((k) => root * 12 + k);
+  const keys = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((k) => root + k);
   return (
     <OctaveContainer>
       <KeysContainer>
