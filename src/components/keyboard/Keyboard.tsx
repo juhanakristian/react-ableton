@@ -72,7 +72,7 @@ const KeyboardOctaves = styled.div`
   flex-direction: row;
 `;
 
-type KeyboardProps = {
+export type KeyboardProps = {
   onKeyDown?: (key: number) => void;
   onKeyUp?: (key: number) => void;
 };
