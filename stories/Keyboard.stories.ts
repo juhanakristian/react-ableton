@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import PianoRoll from "../src/components/pianoroll/PianoRoll";
+import Keyboard from "../src/components/keyboard/Keyboard";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
-  title: "Example/PianoRoll",
-  component: PianoRoll,
+  title: "Example/Keyboard",
+  component: Keyboard,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
     layout: "centered",
@@ -13,7 +13,7 @@ const meta = {
   tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {},
-} satisfies Meta<typeof PianoRoll>;
+} satisfies Meta<typeof Keyboard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

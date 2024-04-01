@@ -21,7 +21,7 @@ const StyledPanelTitleBar = styled.div<{ focused: boolean }>`
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 0px 3px;
+  padding: 0 3px;
   background-color: ${(props) => (props.focused ? "#9CB0BE" : "#A0A0A0")};
   color: #000000;
   font-size: 11px;
