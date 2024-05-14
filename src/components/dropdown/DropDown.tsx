@@ -12,6 +12,7 @@ const DropdownContainer = styled.div`
 const StyledDropdown = styled.button`
   background-color: #d7d7d7;
   min-width: 100px;
+  width: 100%;
   padding: 2px 5px;
   margin: 0;
   border: 1px solid #000000;

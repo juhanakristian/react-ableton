@@ -3,42 +3,13 @@ import styled from "@emotion/styled";
 import React from "react";
 import { arcPath, arcPoint } from "./util";
 
-const Container = styled.div<{ focused: boolean }>`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 30px;
   box-sizing: border-box;
   outline: none;
-`;
-
-const FocusContainer = styled.div`
-  position: absolute;
-  width: 60px;
-  height: 90px;
-  pointer-events: none;
-`;
-
-type FocusCornerProps = {
-  left?: string;
-  right?: string;
-  top?: string;
-  bottom?: string;
-
-  transform?: string;
-};
-
-const FocusCorner = styled.div<FocusCornerProps>`
-  position: absolute;
-  left: ${(props) => props.left};
-  right: ${(props) => props.right};
-  top: ${(props) => props.top};
-  bottom: ${(props) => props.bottom};
-  transform: ${(props) => props.transform};
-  width: 6px;
-  height: 6px;
-  border-left: 1px solid #181818;
-  border-top: 1px solid #181818;
 `;
 
 const KnobTitle = styled.label`
@@ -63,7 +34,6 @@ export type KnobProps = {
 };
 
 export default function Knob(props: KnobProps) {
-  const [focused, setFocused] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement | null>(null);
 
   function onMouseDown(event: React.MouseEvent<any>) {
@@ -88,8 +58,6 @@ export default function Knob(props: KnobProps) {
 
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
-
-    containerRef.current?.focus();
   }
 
   const [min, max] = props.range || [0, 1];
@@ -113,21 +81,7 @@ export default function Knob(props: KnobProps) {
   const formattedValue = props.formatter ? props.formatter(props.value) : props.value.toFixed(2);
 
   return (
-    <Container
-      focused={focused}
-      ref={containerRef}
-      tabIndex={-1}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-    >
-      {focused && (
-        <FocusContainer>
-          <FocusCorner left="0px" top="5px" />
-          <FocusCorner right="0px" top="5px" transform="rotate(90deg)" />
-          <FocusCorner right="0px" bottom="5px" transform="rotate(180deg)" />
-          <FocusCorner left="0px" bottom="5px" transform="rotate(-90deg)" />
-        </FocusContainer>
-      )}
+    <Container ref={containerRef} tabIndex={-1}>
       {typeof props.title === "string" ? <KnobTitle>{props.title}</KnobTitle> : props.title}
       <svg width={40} height={40} onMouseDown={onMouseDown}>
         <path d={arc} fill="none" strokeWidth={3} strokeLinecap="round" stroke="#181818" />
@@ -145,8 +99,6 @@ export default function Knob(props: KnobProps) {
         hidden
         value={props.value}
         type="range"
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
         onChange={(e) => (props.onChange ? props.onChange(parseFloat(e.target.value)) : undefined)}
       ></input>
     </Container>
